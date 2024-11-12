@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Калькулятор</title>
+    <script>
+        async function calculate() {
+            const x = parseFloat(document.getElementById('number1').value);
+            const y = parseFloat(document.getElementById('number2').value);
+            const operation = document.getElementById('operation').value;
+
+            const response = await fetch('/calculate/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({x, y, operation}),
+            });
+
+            const data = await response.json();
+            document.getElementById('result').innerText = data.result;
+        }
+    </script>
+</head>
+<body>
+    <h1>Мини калькулятор</h1>
+    <input type="number" id="number1" placeholder="Введите первое число">
+    <select id="operation">
+        <option value="add">+</option>
+        <option value="subtract">-</option>
+        <option value="multiply">*</option>
+        <option value="divide">/</option>
+    </select>
+    <input type="number" id="number2" placeholder="Введите второе число">
+    <button onclick="calculate()">=</button>
+    <span id="result"></span>
+</body>
+</html>
